@@ -1,0 +1,34 @@
+# 环境变量（包含敏感信息）
+.env
+
+# SSL 证书（私有）
+nginx/ssl/*.key
+nginx/ssl/*.crt
+!nginx/ssl/.gitkeep
+
+# 备份文件
+backup/manual/*
+backup/archive/*
+!backup/manual/.gitkeep
+!backup/archive/.gitkeep
+
+# 日志
+logs/*
+!logs/.gitkeep
+
+# Docker
+.docker/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 临时文件
+*.tmp
+*.temp

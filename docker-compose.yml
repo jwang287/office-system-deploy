@@ -1,0 +1,146 @@
+version: '3.8'
+
+services:
+  # Nextcloud 主服务
+  nextcloud:
+    image: nextcloud:28-apache
+    container_name: office_nextcloud
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_TRUSTED_DOMAINS}
+      - OVERWRITEPROTOCOL=https
+      - OVERWRITEHOST=${OVERWRITEHOST}
+      - OVERWRITEWEBROOT=/
+      - OVERWRITECONDADDR=
+      - TRUSTED_PROXIES=172.0.0.0/8
+      - PHP_MEMORY_LIMIT=1024M
+      - PHP_UPLOAD_LIMIT=10G
+      - PHP_MAX_TIME=3600
+    volumes:
+      - nextcloud_data:/var/www/html
+      - ./init/custom.config.php:/var/www/html/config/custom.config.php:ro
+      - ./logs/nextcloud:/var/log/nextcloud
+    depends_on:
+      - db
+      - redis
+    networks:
+      - office_network
+
+  # 数据库 - PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: office_postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backup/postgres:/backup
+    networks:
+      - office_network
+
+  # Redis 缓存
+  redis:
+    image: redis:7-alpine
+    container_name: office_redis
+    restart: always
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - office_network
+
+  # OnlyOffice 文档服务器
+  onlyoffice:
+    image: onlyoffice/documentserver:8.0
+    container_name: office_onlyoffice
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      - JWT_ENABLED=true
+      - JWT_SECRET=${ONLYOFFICE_JWT_SECRET}
+      - JWT_HEADER=Authorization
+      - USE_UNAUTHORIZED_STORAGE=true
+    volumes:
+      - onlyoffice_data:/var/www/onlyoffice/Data
+      - onlyoffice_logs:/var/log/onlyoffice
+      - onlyoffice_cache:/var/lib/onlyoffice/documentserver/App_Data/cache/files
+      - onlyoffice_fonts:/usr/share/fonts/truetype/custom
+    networks:
+      - office_network
+
+  # Nginx 反向代理 + SSL
+  nginx:
+    image: nginx:alpine
+    container_name: office_nginx
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/nextcloud.conf:/etc/nginx/conf.d/nextcloud.conf:ro
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - nextcloud
+      - onlyoffice
+    networks:
+      - office_network
+
+  # 备份服务
+  backup:
+    image: offen/docker-volume-backup:v2
+    container_name: office_backup
+    restart: always
+    environment:
+      - BACKUP_CRON_EXPRESSION=0 2 * * *
+      - BACKUP_RETENTION_DAYS=30
+      - BACKUP_FILENAME=backup-%Y-%m-%dT%H-%M-%S.tar.gz
+      - BACKUP_ARCHIVE=/archive
+      - BACKUP_STOP_CONTAINER_LABEL=office.backup.stop
+      - BACKUP_FROM_SNAPSHOT=true
+      - AWS_S3_BUCKET_NAME=${S3_BUCKET}
+      - AWS_ACCESS_KEY_ID=${S3_ACCESS_KEY}
+      - AWS_SECRET_ACCESS_KEY=${S3_SECRET_KEY}
+      - AWS_S3_ENDPOINT=${S3_ENDPOINT}
+    volumes:
+      - nextcloud_data:/backup/nextcloud:ro
+      - postgres_data:/backup/postgres:ro
+      - redis_data:/backup/redis:ro
+      - onlyoffice_data:/backup/onlyoffice:ro
+      - ./backup/archive:/archive
+    networks:
+      - office_network
+    profiles:
+      - backup
+
+volumes:
+  nextcloud_data:
+    driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  onlyoffice_data:
+    driver: local
+  onlyoffice_logs:
+    driver: local
+  onlyoffice_cache:
+    driver: local
+  onlyoffice_fonts:
+    driver: local
+
+networks:
+  office_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
