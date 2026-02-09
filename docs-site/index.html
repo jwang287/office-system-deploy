@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业私有化办公系统 - 装修公司专用</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 60px;
+            color: #333;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        /* Tech Stack */
+        .tech-stack {
+            padding: 80px 0;
+            background: #f5f7fa;
+        }
+        
+        .tech-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-weight: 600;
+        }
+        
+        /* Quick Start */
+        .quick-start {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 30px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 30px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        
+        .code-block code {
+            color: #7ee787;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2d3748;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            header p {
+                font-size: 1em;
+            }
+            
+            .section-title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🏢 企业私有化办公系统</h1>
+            <p>专为装修公司打造的私有化文件管理与协作平台，支持项目管理、在线编辑、多端同步，数据完全自主可控。</p>
+            <a href="https://github.com/yourusername/office-system-deploy" class="btn">📥 GitHub 仓库</a>
+            <a href="#quick-start" class="btn btn-outline">🚀 快速开始</a>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">核心功能</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3>文件管理</h3>
+                    <p>支持 Office、PDF、图片等格式上传下载，自动保留10个版本历史，支持在线预览无需下载。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>权限管理</h3>
+                    <p>基于角色的访问控制（管理员/项目经理/员工），文件夹级别权限设置，支持密码保护的分享链接。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📂</div>
+                    <h3>项目管理</h3>
+                    <p>每个装修项目独立空间，进行中与归档状态管理，支持项目模板快速创建标准文件夹结构。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✏️</div>
+                    <h3>在线编辑</h3>
+                    <p>集成 ONLYOFFICE，支持 Word、Excel、PPT 在线编辑，多人实时协作，评论批注功能。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>多端访问</h3>
+                    <p>Web 浏览器 + iOS/Android APP，现场照片自动同步，随时随地访问项目文件。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>自动备份</h3>
+                    <p>每日自动备份，支持本地和云存储，一键恢复，数据安全有保障。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">技术架构</h2>
+            <div class="tech-list">
+                <div class="tech-item">Nextcloud 28</div>
+                <div class="tech-item">ONLYOFFICE 8.0</div>
+                <div class="tech-item">PostgreSQL 15</div>
+                <div class="tech-item">Redis 7</div>
+                <div class="tech-item">Docker</div>
+                <div class="tech-item">Nginx</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-start" id="quick-start">
+        <div class="container">
+            <h2 class="section-title">快速开始</h2>
+            <p style="text-align: center; margin-bottom: 30px;">只需几步，在 Windows 电脑上部署私有化办公系统</p>
+            
+            <div class="code-block">
+                <pre><code># 1. 克隆仓库
+git clone https://github.com/yourusername/office-system-deploy.git
+cd office-system-deploy
+
+# 2. 配置环境
+copy .env.example .env
+# 编辑 .env 设置密码和服务器地址
+
+# 3. 生成 SSL 证书
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout nginx/ssl/server.key \
+  -out nginx/ssl/server.crt \
+  -subj "/C=CN/ST=Beijing/L=Beijing/O=Company/CN=localhost"
+
+# 4. 启动服务
+docker-compose up -d
+
+# 5. 访问系统
+# https://localhost 或 https://192.168.1.100</code></pre>
+            </div>
+            
+            <p style="text-align: center;">
+                <a href="https://github.com/yourusername/office-system-deploy/blob/main/docs/deploy-windows.md" class="btn">📖 完整部署文档</a>
+            </p>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">文档资源</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📘</div>
+                    <h3>部署指南</h3>
+                    <p>Windows Docker 部署详细步骤，环境准备、配置说明、故障排查。</p>
+                    <a href="https://github.com/yourusername/office-system-deploy/blob/main/docs/deploy-windows.md">查看文档 →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📗</div>
+                    <h3>用户手册</h3>
+                    <p>员工使用教程，文件上传下载、项目管理、手机 APP 配置。</p>
+                    <a href="https://github.com/yourusername/office-system-deploy/blob/main/docs/user-guide.md">查看文档 →</a>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📕</div>
+                    <h3>管理员手册</h3>
+                    <p>系统管理指南，用户管理、权限配置、备份恢复、升级维护。</p>
+                    <a href="https://github.com/yourusername/office-system-deploy/blob/main/docs/admin-guide.md">查看文档 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>开源项目 | 基于 Nextcloud 和 ONLYOFFICE</p>
+            <p>
+                <a href="https://github.com/yourusername/office-system-deploy">GitHub 仓库</a> | 
+                <a href="https://nextcloud.com">Nextcloud</a> | 
+                <a href="https://www.onlyoffice.com">ONLYOFFICE</a>
+            </p>
+            <p style="margin-top: 20px; opacity: 0.7;">© 2025 企业私有化办公系统</p>
+        </div>
+    </footer>
+</body>
+</html>
